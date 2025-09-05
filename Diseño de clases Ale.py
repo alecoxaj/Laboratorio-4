@@ -7,9 +7,9 @@ class Participante:
         return f"{self.nombre} - {self.institucion}"
 
 
-class BandaEscolar:
+class BandaEscolar(Participante):
     categorías = ["Primaria", "Básico", "Diversificado"]
-    criterio = ["ritmo", "uniformidad", "coreografía", "alineación, puntualidad"]
+    criterio = ["ritmo", "uniformidad", "coreografía", "alineación", "puntualidad"]
 
     def __init__(self, nombre, institucion, categoria):
         super().__init__(nombre, institucion)
