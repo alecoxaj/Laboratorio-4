@@ -67,6 +67,7 @@ def inscribir_banda():
     etiqueta = tk.Label(ventana_inscribir, text="Escribe el nombre de la banda")
     etiqueta.pack(pady=5)
 
+
 def registrar_evaluacion():
     print("Se abrió la ventana: Registrar Evaluación")
     ventana_eval = tk.Toplevel(ventana)
