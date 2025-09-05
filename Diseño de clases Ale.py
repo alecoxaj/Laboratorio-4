@@ -1,3 +1,6 @@
+import tkinter as tk
+from tkinter import messagebox, simpledialog
+
 class Participante:
     def __init__(self, nombre, institucion):
         self.nombre = nombre
@@ -56,5 +59,7 @@ class Concurso:
 
     def ranking(self):
         return sorted(self.bandas.values(), key=lambda b: b.total, reverse=True)
+
+
 
 
