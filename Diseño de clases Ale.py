@@ -80,6 +80,11 @@ def registrar_evaluacion():
             return
         puntajes[criterio] = valor
 
+    try:
+        self.concurso.registrar_evaluacion(nombre, puntajes)
+        messagebox.showinfo("Éxito", f"Puntajes registrados para '{nombre}'")
+    except Exception as e:
+        messagebox.showerror("Error", str(e))
 
 
 
