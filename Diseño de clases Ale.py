@@ -57,4 +57,25 @@ class Concurso:
     def ranking(self):
         return sorted(self.bandas.values(), key=lambda b: b.total, reverse=True)
 
+concurso = Concurso("Concurso de bandas", "2025-09-15")
+
+
+def registrar_evaluacion():
+    if not concurso.bandas:
+        messagebox.showwarning("Aviso", "No hay bandas inscritas")
+        return
+
+    nombre = simpledialog.askstring("Evaluación", "Nombre de la Banda a evaluar:")
+    if nombre not in concurso.bandas:
+        messagebox.showerror("Error", "Esa banda no está escrita.")
+        return
+
+    puntajes = {}
+    for criterio in BandaEscolar.criterio:
+        valor = simpledialog.askinteger("Evaluación", f"Puntaje de {criterio} (0-10):", minvalue=0, maxvalue=10)
+        if valor is None:
+            return
+        puntajes[criterio] = valor
+
+
 
