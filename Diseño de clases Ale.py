@@ -141,7 +141,7 @@ class ConcursoBandasApp:
 
     def ver_ranking(self):
         if not self.concurso.bandas:
-            messagebox.showinfo("Ranking", "No hay bandas inscritas.")
+            messagebox.showwarning("Ranking", "No hay bandas inscritas.")
         else:
             ranking = self.concurso.ranking()
             texto = ""
