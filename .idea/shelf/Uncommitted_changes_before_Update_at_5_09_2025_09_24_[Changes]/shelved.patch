@@ -1,0 +1,82 @@
+Index: Diseño de clases Ale.py
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>import tkinter as tk\r\n\r\nclass Participante:\r\n    def __init__(self, nombre, institucion):\r\n        self.nombre = nombre\r\n        self.institucion = institucion\r\n\r\n    def mostrar_info(self):\r\n        return f\"{self.nombre} - {self.institucion}\"\r\n\r\n\r\nclass BandaEscolar(Participante):\r\n    categorías = [\"Primaria\", \"Básico\", \"Diversificado\"]\r\n    criterio = [\"ritmo\", \"uniformidad\", \"coreografía\", \"alineación\", \"puntualidad\"]\r\n\r\n    def __init__(self, nombre, institucion, categoria):\r\n        super().__init__(nombre, institucion)\r\n        if categoria not in BandaEscolar.categorías:\r\n            raise ValueError(\"Categoria inválida.\")\r\n        self._categoria = categoria\r\n        self._puntajes = {}\r\n\r\n    def registrar_puntajes(self, puntajes):\r\n        if set(puntajes.keys()) != set(BandaEscolar.criterio):\r\n            raise ValueError(\"Faltan criterios\")\r\n        for v in puntajes.values():\r\n            if v < 0 or v > 10:\r\n                raise ValueError(\"Los puntajes deben ser entre 0 y 10\")\r\n        self._puntajes = puntajes\r\n\r\n    @property\r\n    def total(self):\r\n        return sum(self._puntajes.values()) if self._puntajes else 0\r\n\r\n    def mostrar_info(self):\r\n        if self._puntajes:\r\n            return f\"{super().mostrar_info()} - {self._categoria} - Total: {self.total}\"\r\n        else:\r\n            return f\"{super().mostrar_info()} - {self._categoria} - Sin evaluación\"\r\n\r\n\r\nclass Concurso:\r\n    def __init__(self, nombre, fecha):\r\n        self._nombre = nombre\r\n        self._fecha = fecha\r\n        self.bandas = {}\r\n\r\n    def inscribir_banda(self, banda):\r\n        if banda.nombre in self.bandas:\r\n            raise ValueError(\"Ya existe una banda con ese nombre\")\r\n        self.bandas[banda.nombre] = banda\r\n\r\n    def registrar_evaluacion(self, nombre, puntajes):\r\n        self.bandas[nombre].registrar_puntajes(puntajes)\r\n\r\n    def listar_bandas(self):\r\n        return [b.mostrar_info() for b in self.bandas.values()]\r\n\r\n    def ranking(self):\r\n        return sorted(self.bandas.values(), key=lambda b: b.total, reverse=True)\r\n\r\ndef inscribir_banda():\r\n    print(\"Se abrió la ventana: Inscribir Banda\")\r\n    ventana_inscribir = tk.Toplevel(ventana)\r\n    ventana_inscribir.title(\"Inscribir Banda\")\r\n    ventana_inscribir.geometry(\"400x300\")\r\n    etiqueta = tk.Label(ventana_inscribir, text=\"Escribe el nombre de la banda\")\r\n    etiqueta.pack(pady=5)\r\n\r\n\r\ndef registrar_evaluacion():\r\n    print(\"Se abrió la ventana: Registrar Evaluación\")\r\n    ventana_eval = tk.Toplevel(ventana)\r\n    ventana_eval.title(\"Registrar Evaluación\")\r\n    ventana_eval.geometry(\"400x300\")\r\n\r\ndef listar_bandas():\r\n    print(\"Se abrió la ventana: Listado de Bandas\")\r\n    ventana_listado = tk.Toplevel(ventana)\r\n    ventana_listado.title(\"Listado de Bandas\")\r\n    ventana_listado.geometry(\"400x300\")\r\n\r\ndef ver_ranking():\r\n    print(\"Se abrió la ventana: Ranking Final\")\r\n    ventana_ranking = tk.Toplevel(ventana)\r\n    ventana_ranking.title(\"Ranking Final\")\r\n    ventana_ranking.geometry(\"400x300\")\r\n\r\ndef salir():\r\n    print(\"Aplicación cerrada\")\r\n    ventana.quit()\r\n\r\nventana = tk.Tk()\r\nventana.title(\"Concurso de Bandas - Quetzaltenango\")\r\nventana.geometry(\"500x300\")\r\n\r\nbarra_menu = tk.Menu(ventana)\r\n\r\nmenu_opciones = tk.Menu(barra_menu, tearoff=0)\r\nmenu_opciones.add_command(label=\"Inscribir Banda\", command=inscribir_banda)\r\nmenu_opciones.add_command(label=\"Registrar Evaluación\", command=registrar_evaluacion)\r\nmenu_opciones.add_command(label=\"Listar Bandas\", command=listar_bandas)\r\nmenu_opciones.add_command(label=\"Ver Ranking\", command=ver_ranking)\r\nmenu_opciones.add_separator()\r\nmenu_opciones.add_command(label=\"Salir\", command=salir)\r\n\r\nbarra_menu.add_cascade(label=\"Opciones\", menu=menu_opciones)\r\n\r\nventana.config(menu=barra_menu)\r\n\r\netiqueta = tk.Label(\r\n    ventana,\r\n    text=\"Sistema de Inscripción y Evaluación de Bandas Escolares\\nDesfile 15 de Septiembre - Quetzaltenango\",\r\n    font=(\"Arial\", 12, \"bold\"),\r\n    justify=\"center\"\r\n)\r\netiqueta.pack(pady=50)\r\n\r\nventana.mainloop()\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/Diseño de clases Ale.py b/Diseño de clases Ale.py
+--- a/Diseño de clases Ale.py	(revision a1c53cf775dd81ab2c18dbcf1e2fe939ce76f491)
++++ b/Diseño de clases Ale.py	(date 1757085690701)
+@@ -67,7 +67,6 @@
+     etiqueta = tk.Label(ventana_inscribir, text="Escribe el nombre de la banda")
+     etiqueta.pack(pady=5)
+ 
+-
+ def registrar_evaluacion():
+     print("Se abrió la ventana: Registrar Evaluación")
+     ventana_eval = tk.Toplevel(ventana)
+Index: .idea/workspace.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<project version=\"4\">\r\n  <component name=\"AutoImportSettings\">\r\n    <option name=\"autoReloadType\" value=\"SELECTIVE\" />\r\n  </component>\r\n  <component name=\"ChangeListManager\">\r\n    <list default=\"true\" id=\"a6954dbe-0beb-4846-bab4-ad2ea4c52811\" name=\"Changes\" comment=\"\">\r\n      <change beforePath=\"$PROJECT_DIR$/.idea/misc.xml\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/.idea/misc.xml\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/.idea/workspace.xml\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/.idea/workspace.xml\" afterDir=\"false\" />\r\n      <change beforePath=\"$PROJECT_DIR$/Diseño de clases Ale.py\" beforeDir=\"false\" afterPath=\"$PROJECT_DIR$/Diseño de clases Ale.py\" afterDir=\"false\" />\r\n    </list>\r\n    <option name=\"SHOW_DIALOG\" value=\"false\" />\r\n    <option name=\"HIGHLIGHT_CONFLICTS\" value=\"true\" />\r\n    <option name=\"HIGHLIGHT_NON_ACTIVE_CHANGELIST\" value=\"false\" />\r\n    <option name=\"LAST_RESOLUTION\" value=\"IGNORE\" />\r\n  </component>\r\n  <component name=\"FileTemplateManagerImpl\">\r\n    <option name=\"RECENT_TEMPLATES\">\r\n      <list>\r\n        <option value=\"Python Script\" />\r\n      </list>\r\n    </option>\r\n  </component>\r\n  <component name=\"Git.Settings\">\r\n    <option name=\"RECENT_BRANCH_BY_REPOSITORY\">\r\n      <map>\r\n        <entry key=\"$PROJECT_DIR$\" value=\"junior\" />\r\n      </map>\r\n    </option>\r\n    <option name=\"RECENT_GIT_ROOT_PATH\" value=\"$PROJECT_DIR$\" />\r\n  </component>\r\n  <component name=\"GitHubPullRequestSearchHistory\">{\r\n  &quot;history&quot;: [\r\n    {\r\n      &quot;assignee&quot;: &quot;JuniBandido&quot;\r\n    }\r\n  ],\r\n  &quot;lastFilter&quot;: {\r\n    &quot;assignee&quot;: &quot;JuniBandido&quot;\r\n  }\r\n}</component>\r\n  <component name=\"GithubPullRequestsUISettings\">{\r\n  &quot;selectedUrlAndAccountId&quot;: {\r\n    &quot;url&quot;: &quot;https://github.com/alecoxaj/Laboratorio-4.git&quot;,\r\n    &quot;accountId&quot;: &quot;90f5463c-8c5d-4138-95dc-d161af300ec7&quot;\r\n  }\r\n}</component>\r\n  <component name=\"ProjectColorInfo\">{\r\n  &quot;associatedIndex&quot;: 4\r\n}</component>\r\n  <component name=\"ProjectId\" id=\"32HhzOoFaKKLN2FiZZgUER7wLMH\" />\r\n  <component name=\"ProjectViewState\">\r\n    <option name=\"hideEmptyMiddlePackages\" value=\"true\" />\r\n    <option name=\"showLibraryContents\" value=\"true\" />\r\n  </component>\r\n  <component name=\"PropertiesComponent\"><![CDATA[{\r\n  \"keyToString\": {\r\n    \"ModuleVcsDetector.initialDetectionPerformed\": \"true\",\r\n    \"Python.Diseño de clases Ale.executor\": \"Run\",\r\n    \"Python.showInfo.executor\": \"Run\",\r\n    \"RunOnceActivity.ShowReadmeOnStart\": \"true\",\r\n    \"RunOnceActivity.git.unshallow\": \"true\",\r\n    \"git-widget-placeholder\": \"main\"\r\n  }\r\n}]]></component>\r\n  <component name=\"SharedIndexes\">\r\n    <attachedChunks>\r\n      <set>\r\n        <option value=\"bundled-python-sdk-598b0484d0b5-e2d783800521-com.jetbrains.pycharm.community.sharedIndexes.bundled-PC-251.26927.74\" />\r\n      </set>\r\n    </attachedChunks>\r\n  </component>\r\n  <component name=\"TaskManager\">\r\n    <task active=\"true\" id=\"Default\" summary=\"Default task\">\r\n      <changelist id=\"a6954dbe-0beb-4846-bab4-ad2ea4c52811\" name=\"Changes\" comment=\"\" />\r\n      <created>1757083666773</created>\r\n      <option name=\"number\" value=\"Default\" />\r\n      <option name=\"presentableId\" value=\"Default\" />\r\n      <updated>1757083666773</updated>\r\n    </task>\r\n    <task id=\"LOCAL-00001\" summary=\"clase concurso\">\r\n      <option name=\"closed\" value=\"true\" />\r\n      <created>1757084590758</created>\r\n      <option name=\"number\" value=\"00001\" />\r\n      <option name=\"presentableId\" value=\"LOCAL-00001\" />\r\n      <option name=\"project\" value=\"LOCAL\" />\r\n      <updated>1757084590758</updated>\r\n    </task>\r\n    <option name=\"localTasksCounter\" value=\"2\" />\r\n    <servers />\r\n  </component>\r\n  <component name=\"VcsManagerConfiguration\">\r\n    <MESSAGE value=\"clase concurso\" />\r\n    <option name=\"LAST_COMMIT_MESSAGE\" value=\"clase concurso\" />\r\n  </component>\r\n</project>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/workspace.xml b/.idea/workspace.xml
+--- a/.idea/workspace.xml	(revision a1c53cf775dd81ab2c18dbcf1e2fe939ce76f491)
++++ b/.idea/workspace.xml	(date 1757085724934)
+@@ -4,9 +4,7 @@
+     <option name="autoReloadType" value="SELECTIVE" />
+   </component>
+   <component name="ChangeListManager">
+-    <list default="true" id="a6954dbe-0beb-4846-bab4-ad2ea4c52811" name="Changes" comment="">
+-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
++    <list default="true" id="a6954dbe-0beb-4846-bab4-ad2ea4c52811" name="Changes" comment="avance">
+       <change beforePath="$PROJECT_DIR$/Diseño de clases Ale.py" beforeDir="false" afterPath="$PROJECT_DIR$/Diseño de clases Ale.py" afterDir="false" />
+     </list>
+     <option name="SHOW_DIALOG" value="false" />
+@@ -60,7 +58,8 @@
+     "Python.showInfo.executor": "Run",
+     "RunOnceActivity.ShowReadmeOnStart": "true",
+     "RunOnceActivity.git.unshallow": "true",
+-    "git-widget-placeholder": "main"
++    "git-widget-placeholder": "main",
++    "settings.editor.selected.configurable": "preferences.lookFeel"
+   }
+ }]]></component>
+   <component name="SharedIndexes">
+@@ -86,11 +85,29 @@
+       <option name="project" value="LOCAL" />
+       <updated>1757084590758</updated>
+     </task>
+-    <option name="localTasksCounter" value="2" />
++    <task id="LOCAL-00002" summary="avance menu">
++      <option name="closed" value="true" />
++      <created>1757085528151</created>
++      <option name="number" value="00002" />
++      <option name="presentableId" value="LOCAL-00002" />
++      <option name="project" value="LOCAL" />
++      <updated>1757085528151</updated>
++    </task>
++    <task id="LOCAL-00003" summary="avance">
++      <option name="closed" value="true" />
++      <created>1757085604166</created>
++      <option name="number" value="00003" />
++      <option name="presentableId" value="LOCAL-00003" />
++      <option name="project" value="LOCAL" />
++      <updated>1757085604166</updated>
++    </task>
++    <option name="localTasksCounter" value="4" />
+     <servers />
+   </component>
+   <component name="VcsManagerConfiguration">
+     <MESSAGE value="clase concurso" />
+-    <option name="LAST_COMMIT_MESSAGE" value="clase concurso" />
++    <MESSAGE value="avance menu" />
++    <MESSAGE value="avance" />
++    <option name="LAST_COMMIT_MESSAGE" value="avance" />
+   </component>
+ </project>
+\ No newline at end of file

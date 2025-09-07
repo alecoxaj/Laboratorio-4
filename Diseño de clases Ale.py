@@ -1,3 +1,6 @@
+import tkinter as tk
+from tkinter import messagebox, simpledialog
+
 class Participante:
     def __init__(self, nombre, institucion):
         self.nombre = nombre
@@ -5,7 +8,6 @@ class Participante:
 
     def mostrar_info(self):
         return f"{self.nombre} - {self.institucion}"
-
 
 class BandaEscolar(Participante):
     categorías = ["Primaria", "Básico", "Diversificado"]
@@ -34,8 +36,7 @@ class BandaEscolar(Participante):
         if self._puntajes:
             return f"{super().mostrar_info()} - {self._categoria} - Total: {self.total}"
         else:
-            return f"{super().mostrar_info()} - {self._categoria} - Sin evaluación"
-
+            return f"{super().mostrar_info()} - {self._categoria} - Sin evaluación existente"
 
 class Concurso:
     def __init__(self, nombre, fecha):
@@ -45,7 +46,7 @@ class Concurso:
 
     def inscribir_banda(self, banda):
         if banda.nombre in self.bandas:
-            raise ValueError("Ya existe una banda con ese nombre")
+            raise ValueError("Ya existe una banda con ese nombre, intenta con otro")
         self.bandas[banda.nombre] = banda
 
     def registrar_evaluacion(self, nombre, puntajes):
@@ -63,7 +64,7 @@ class ConcursoBandasApp:
 
         self.ventana = tk.Tk()
         self.ventana.title("Concurso de Bandas - Quetzaltenango")
-        self.ventana.geometry("500x300")
+        self.ventana.geometry("500x400")
 
         self.menu()
 
@@ -99,14 +100,13 @@ class ConcursoBandasApp:
         try:
             banda = BandaEscolar(nombre, institucion, categoria)
             self.concurso.inscribir_banda(banda)
-            messagebox.showinfo("Éxito", f"Banda '{nombre}' inscrita correctamente.")
+            messagebox.showinfo("Éxito", f"Banda '{nombre}' se inscribió correctamente.")
         except Exception as e:
             messagebox.showerror("Error", str(e))
 
-
     def registrar_evaluacion(self):
         if not self.concurso.bandas:
-            messagebox.showwarning("Aviso", "No hay bandas inscritas")
+            messagebox.showwarning("Aviso", "No existen bandas inscritas")
             return
 
         nombre = simpledialog.askstring("Evaluación", "Nombre de la Banda a evaluar:")
@@ -146,11 +146,5 @@ class ConcursoBandasApp:
                 texto += f"{i} {b.nombre} - {b.institucion} - {b._categoria} - Total: {b.total}\n"
             messagebox.showinfo("Ranking Final", texto)
 
-
 if __name__ == "__main__":
     ConcursoBandasApp()
-
-
-
-
-
