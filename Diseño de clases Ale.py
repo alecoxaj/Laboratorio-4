@@ -91,18 +91,32 @@ class ConcursoBandasApp:
         barra.add_cascade(label="Opciones", menu=opciones)
         self.ventana.config(menu=barra)
 
+    def inscribir_banda(self):
+        nombre = simpledialog.askstring("Inscripción", "Nombre de la Banda:")
+        institucion = simpledialog.askstring("Inscripción", "Institución:")
+        categoria = simpledialog.askstring("Inscripción", "Categoria (Primaria, Básico, Diversificado")
+
+        if not nombre or not institucion or not categoria:
+            return
+
+        try:
+            banda = BandaEscolar(nombre, institucion, categoria)
+            self.concurso.inscribir_banda(banda)
+            messagebox.showinfo("Éxito", f"Banda '{nombre}' inscrita correctamente.")
+        except Exception as e:
+            messagebox.showerror("Error", str(e))
 
 
-
-
-    def registrar_evaluacion():
-        if not concurso.bandas:
+    def registrar_evaluacion(self):
+        if not self.concurso.bandas:
             messagebox.showwarning("Aviso", "No hay bandas inscritas")
             return
 
         nombre = simpledialog.askstring("Evaluación", "Nombre de la Banda a evaluar:")
-        if nombre not in concurso.bandas:
-            messagebox.showerror("Error", "Esa banda no está escrita.")
+        if not nombre:
+            return
+        if nombre not in self.concurso.bandas:
+            messagebox.showerror("Error", "Esa banda no está inscrita.")
             return
 
         puntajes = {}
@@ -117,6 +131,27 @@ class ConcursoBandasApp:
             messagebox.showinfo("Éxito", f"Puntajes registrados para '{nombre}'")
         except Exception as e:
             messagebox.showerror("Error", str(e))
+
+    def listar_bandas(self):
+        if not self.concurso.bandas:
+            messagebox.showwarning("Listado", "No hay bandas inscritas.")
+        else:
+            lista = "\n".join(self.concurso.listar_bandas())
+            messagebox.showinfo("Listado de Bandas", lista)
+
+    def ver_ranking(self):
+        if not self.concurso.bandas:
+            messagebox.showinfo("Ranking", "No hay bandas inscritas.")
+        else:
+            ranking = self.concurso.ranking()
+            texto = ""
+            for i, b in enumerate(ranking, 1):
+                texto += f"{i} {b.nombre} - {b.institucion} - {b._categoria} - Total: {b.total}\n"
+            messagebox.showinfo("Ranking Final", texto)
+
+
+if __name__ == "__main__":
+    ConcursoBandasApp()
 
 
 
